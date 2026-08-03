@@ -1,0 +1,13 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Newsletter: mailing list{% endblock %}
+
+{% block content %}
+<h1>{{ mailinglist.message }}</h1>
+<p>{{ mailinglist.dispatch_start }}</p>
+<p>{{ mailinglist.dispatch_end }}</p>
+<p>{{ mailinglist.status }}</p>
+<div>
+    {{ mailinglist.recipients }}
+</div>
+{% endblock %}

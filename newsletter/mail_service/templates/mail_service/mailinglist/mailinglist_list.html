@@ -1,0 +1,11 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Newsletter: mailing list{% endblock %}
+
+{% block content %}
+<h1>Список рассылок:</h1>
+
+{% for mailinglist in mailinglist_list %}
+    <p>{{ mailinglist }}</p>
+{% endfor %}
+{% endblock %}
