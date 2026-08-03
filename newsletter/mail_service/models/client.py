@@ -18,7 +18,11 @@ class Client(models.Model):
     first_name = models.CharField(max_length=100, verbose_name="Имя", help_text="введите имя клиента")
     patronymic = models.CharField(max_length=100, null=True, blank=True, verbose_name="Отчество",
                                   help_text="введите отчество клиента (при наличии)")
-    comment = models.TextField(null=True, blank=True, verbose_name="Комметарий", help_text="добавте комметарий")
+    comment = models.TextField(null=True, blank=True, verbose_name="Комметарий", help_text="добавьте комметарий")
 
     def __str__(self):
-        return f"{self.surname} {self.first_name} {self.patronymic}"
+        return f"{self.surname} {self.first_name}{f" {self.patronymic}" if self.patronymic else ""}"
+
+    class Meta:
+        verbose_name = "Клиент"
+        verbose_name_plural = "Клиенты"
