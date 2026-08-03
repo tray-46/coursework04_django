@@ -1,0 +1,10 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Newsletter: message{% endblock %}
+
+{% block content %}
+<h1>{{ message.subject }}</h1>
+<div>
+    {{ message.body|linebreaks }}
+</div>
+{% endblock %}
