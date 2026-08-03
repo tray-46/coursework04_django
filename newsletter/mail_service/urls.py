@@ -7,9 +7,15 @@ from . import views
 app_name = MailServiceConfig.name
 
 urlpatterns = [
-    path('', views.ClientListView.as_view(), name='client_list'),
+    path('clients/', views.ClientListView.as_view(), name='client_list'),
     path('clients/<int:pk>/', views.ClientDetailView.as_view(), name='client_detail'),
     path('clients/new/', views.ClientCreateView.as_view(), name='client_new'),
     path('clients/<int:pk>/edit/', views.ClientUpdateView.as_view(), name='client_edit'),
     path('clients/<int:pk>/delete/', views.ClientDeleteView.as_view(), name='client_detete'),
+
+    path('messages/', views.MessageListView.as_view(), name='message_list'),
+    path('messages/<int:pk>/', views.MessageDetailView.as_view(), name='message_detail'),
+    path('messages/new/', views.MessageCreateView.as_view(), name='message_new'),
+    path('messages/<int:pk>/edit/', views.MessageUpdateView.as_view(), name='message_edit'),
+    path('messages/<int:pk>/delete/', views.MessageDeleteView.as_view(), name='message_detete'),
 ]
