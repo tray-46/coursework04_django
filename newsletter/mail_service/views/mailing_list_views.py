@@ -10,29 +10,29 @@ from ..models import MailingList
 # Create your views here.
 class MailingListListView(ListView):
     model = MailingList
-    template_name = 'mail_service/mailing_list/mailing_list_list.html'
+    template_name = 'mail_service/mailinglist/mailinglist_list.html'
 
 
 class MailingListDetailView(DetailView):
     model = MailingList
-    template_name = 'mail_service/mailing_list/mailing_list_detail.html'
+    template_name = 'mail_service/mailinglist/mailinglist_detail.html'
 
 
 class MailingListCreateView(CreateView):
     model = MailingList
     form_class = MailingListForm
-    template_name = 'mail_service/mailing_list/mailing_list_form.html'
-    success_url = reverse_lazy("mail_service:mailing_list_list")
+    template_name = 'mail_service/mailinglist/mailinglist_form.html'
+    success_url = reverse_lazy("mail_service:mailinglist_list")
 
 
 class MailingListUpdateView(UpdateView):
     model = MailingList
     form_class = MailingListForm
-    template_name = 'mail_service/mailing_list/mailing_list_form.html'
+    template_name = 'mail_service/mailinglist/mailinglist_form.html'
     success_url = reverse_lazy("mail_service:mailing_list_list")
 
 
 class MailingListDeleteView(DeleteView):
     model = MailingList
-    template_name = 'mail_service/mailing_list/mailing_list_confirm_delete.html'
-    success_url = reverse_lazy("mail_service:mailing_list_list")
+    template_name = 'mail_service/mailinglist/mailinglist_confirm_delete.html'
+    success_url = reverse_lazy("mail_service:mailinglist_list")

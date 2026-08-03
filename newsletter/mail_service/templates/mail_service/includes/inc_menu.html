@@ -3,8 +3,8 @@
         <a class="navbar-brand" href="#">
 
         </a>
-        <a class="p-2 btn btn-outline-primary" href="#">Клиенты</a>
-        <a class="p-2 btn btn-outline-primary" href="#">Сообщения</a>
-        <a class="p-2 btn btn-outline-primary" href="#">Рассылки</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'mail_service:client_list' %}">Клиенты</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'mail_service:message_list' %}">Сообщения</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'mail_service:mailinglist_list' %}">Рассылки</a>
     </div>
 </nav>

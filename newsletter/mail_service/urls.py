@@ -19,9 +19,9 @@ urlpatterns = [
     path('messages/<int:pk>/edit/', views.MessageUpdateView.as_view(), name='message_edit'),
     path('messages/<int:pk>/delete/', views.MessageDeleteView.as_view(), name='message_delete'),
 
-    path('mailing-list/', views.MailingListListView.as_view(), name='mailing_list_list'),
-    path('mailing-list/<int:pk>/', views.MailingListDetailView.as_view(), name='mailing_list_detail'),
-    path('mailing-list/new/', views.MailingListCreateView.as_view(), name='mailing_list_new'),
-    path('mailing-list/<int:pk>/edit/', views.MailingListUpdateView.as_view(), name='mailing_list_edit'),
-    path('mailing-list/<int:pk>/delete/', views.MailingListDeleteView.as_view(), name='mailing_list_delete'),
+    path('mailinglist/', views.MailingListListView.as_view(), name='mailinglist_list'),
+    path('mailinglist/<int:pk>/', views.MailingListDetailView.as_view(), name='mailinglist_detail'),
+    path('mailinglist/new/', views.MailingListCreateView.as_view(), name='mailinglist_new'),
+    path('mailinglist/<int:pk>/edit/', views.MailingListUpdateView.as_view(), name='mailinglist_edit'),
+    path('mailinglist/<int:pk>/delete/', views.MailingListDeleteView.as_view(), name='mailinglist_delete'),
 ]
