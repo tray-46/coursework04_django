@@ -11,11 +11,17 @@ urlpatterns = [
     path('clients/<int:pk>/', views.ClientDetailView.as_view(), name='client_detail'),
     path('clients/new/', views.ClientCreateView.as_view(), name='client_new'),
     path('clients/<int:pk>/edit/', views.ClientUpdateView.as_view(), name='client_edit'),
-    path('clients/<int:pk>/delete/', views.ClientDeleteView.as_view(), name='client_detete'),
+    path('clients/<int:pk>/delete/', views.ClientDeleteView.as_view(), name='client_delete'),
 
     path('messages/', views.MessageListView.as_view(), name='message_list'),
     path('messages/<int:pk>/', views.MessageDetailView.as_view(), name='message_detail'),
     path('messages/new/', views.MessageCreateView.as_view(), name='message_new'),
     path('messages/<int:pk>/edit/', views.MessageUpdateView.as_view(), name='message_edit'),
-    path('messages/<int:pk>/delete/', views.MessageDeleteView.as_view(), name='message_detete'),
+    path('messages/<int:pk>/delete/', views.MessageDeleteView.as_view(), name='message_delete'),
+
+    path('mailing-list/', views.MailingListListView.as_view(), name='mailing_list_list'),
+    path('mailing-list/<int:pk>/', views.MailingListDetailView.as_view(), name='mailing_list_detail'),
+    path('mailing-list/new/', views.MailingListCreateView.as_view(), name='mailing_list_new'),
+    path('mailing-list/<int:pk>/edit/', views.MailingListUpdateView.as_view(), name='mailing_list_edit'),
+    path('mailing-list/<int:pk>/delete/', views.MailingListDeleteView.as_view(), name='mailing_list_delete'),
 ]
