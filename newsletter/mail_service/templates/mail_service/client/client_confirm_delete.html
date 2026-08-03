@@ -1,0 +1,18 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Newsletter: client{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <p>Удалить '{{ client.email }}'?</p>
+            <button class="btn btn-lg btn-block btn-outline-primary w-auto" type="submit">Удалить</button>
+            <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" role="button"
+               href="{% url 'mail_service:client_list' %}">Отмена</a>
+
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Newsletter: client{% endblock %}
+
+{% block content %}
+<h1>{{ client.email }}</h1>
+<p>{{ client.surname }}</p>
+<p>{{ client.first_name }}</p>
+<p>{{ client.patronymic }}</p>
+<hr>
+<div>
+    {{ client.comment|linebreaks }}
+</div>
+{% endblock %}
