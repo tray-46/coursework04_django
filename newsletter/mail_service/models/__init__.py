@@ -1,4 +1,3 @@
 from .client import Client
+from .message import Message
 
-
-__all__ = ["Client"]
