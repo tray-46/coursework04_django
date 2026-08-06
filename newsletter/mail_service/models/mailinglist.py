@@ -29,7 +29,7 @@ class MailingList(models.Model):
     recipients = models.ManyToManyField(Client, related_name="mailing_lists")
 
     def __str__(self):
-        return f"{self.message}: {self.status}"
+        return f"{self.message.subject}: {self.get_status_display()}"
 
     class Meta:
         verbose_name = "Рассылка"
