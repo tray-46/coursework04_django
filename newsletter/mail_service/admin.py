@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Client, MailingList, Message  
+from .models import Client, MailingList, Message, DispatchAttempt
 
 # Register your models here.
 @admin.register(Client)
@@ -22,3 +22,9 @@ class MailingListAdmin(admin.ModelAdmin):
     """MailingList admin model"""
 
     list_display = ("message", "status")
+
+@admin.register(DispatchAttempt)
+class DispatchAttemptAdmin(admin.ModelAdmin):
+    """DispatchAttempt admin model"""
+
+    list_display = ("mailing_list", "status")
