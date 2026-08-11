@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 from .client import Client
 from .message import Message
@@ -34,3 +35,22 @@ class MailingList(models.Model):
     class Meta:
         verbose_name = "Рассылка"
         verbose_name_plural = "Рассылки"
+
+    @property
+    def badge_class(self):
+        mapping = {
+            "Создана": "bg-warning",
+            "Запущена": "bg-success",
+            "Завершена": "bg-danger",
+        }
+        return mapping.get(self.get_status, "bg-secondary")
+
+    @property
+    def get_status(self):
+        dt_now = timezone.now()
+        if dt_now < self.dispatch_start:
+            return self.STATUS_CHOICES[0][1]
+        elif self.dispatch_start <= dt_now <= self.dispatch_end:
+            return self.STATUS_CHOICES[1][1]
+        else:
+            return self.STATUS_CHOICES[2][1]
