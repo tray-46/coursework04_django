@@ -21,7 +21,7 @@ class DispatchAttempt(models.Model):
     mailing_list = models.ForeignKey(MailingList, on_delete=models.SET_NULL, null=True, verbose_name="Рассылка")
     attempt_dt = models.DateTimeField(auto_now_add=True, verbose_name="Дата и время попытки")
     status = models.BooleanField(choices=STATUS_CHOICES, default=False, verbose_name="Статус")
-    smtp_response = models.TextField(verbose_name="Ответ почтового сервера")
+    smtp_response = models.TextField(verbose_name="Ответ почтового сервера", null=True)
 
     def __str__(self):
         return f"{self.mailing_list.message}: {self.status}"
