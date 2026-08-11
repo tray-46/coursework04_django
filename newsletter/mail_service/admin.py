@@ -27,4 +27,19 @@ class MailingListAdmin(admin.ModelAdmin):
 class DispatchAttemptAdmin(admin.ModelAdmin):
     """DispatchAttempt admin model"""
 
-    list_display = ("mailing_list", "status")
+    list_display = ("mailing_list__message", "status")
+
+    def get_readonly_fields(self, request, obj=None):
+        return [f.name for f in self.model._meta.fields]
+
+    def has_view_permission(self, request, obj=None):
+        return True
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
