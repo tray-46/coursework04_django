@@ -1,16 +1,22 @@
-from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from ..forms import MailingListForm
 from ..models import MailingList
+from ..services import send_mailinglist
 
 
 # Create your views here.
 class MailingListListView(ListView):
     model = MailingList
     template_name = 'mail_service/mailinglist/mailinglist_list.html'
+
+    def get_queryset(self):
+        return super().get_queryset()
 
 
 class MailingListDetailView(DetailView):
@@ -36,3 +42,12 @@ class MailingListDeleteView(DeleteView):
     model = MailingList
     template_name = 'mail_service/mailinglist/mailinglist_confirm_delete.html'
     success_url = reverse_lazy("mail_service:mailinglist_list")
+
+
+class MailingListSendView(View):
+    def get(self, request, *args, **kwargs):
+        print("1")
+        pk = self.kwargs['pk']
+        send_mailinglist(pk)
+        messages.success(request, "Mailing list launched.")
+        return HttpResponseRedirect(reverse("mail_service:mailinglist_detail", kwargs={"pk":pk}))
