@@ -3,14 +3,14 @@
 {% block title %}Newsletter: message{% endblock %}
 
 {% block content %}
+<h1>Удаление сообщения</h1>
 <div class="card">
     <div class="card-body">
         <form method="POST">
             {% csrf_token %}
-            <p>Удалить '{{ message.subject }}'?</p>
+            <p>Удалить сообщение '{{ message.subject }}'?</p>
             <button class="btn btn-lg btn-block btn-outline-primary w-auto" type="submit">Удалить</button>
-            <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" role="button"
-               href="{% url 'mail_service:client_list' %}">Отмена</a>
+            <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" role="button" onclick=" history.back()">Отмена</a>
 
         </form>
     </div>

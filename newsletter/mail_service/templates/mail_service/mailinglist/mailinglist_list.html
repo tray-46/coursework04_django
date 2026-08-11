@@ -3,9 +3,62 @@
 {% block title %}Newsletter: mailing list{% endblock %}
 
 {% block content %}
-<h1>Список рассылок:</h1>
-
-{% for mailinglist in mailinglist_list %}
-    <p>{{ mailinglist }}</p>
-{% endfor %}
+<div class="px-ut container-fluid py-4 px-md-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+        <div>
+            <h1 class="h3 mb-1">Управление рассылками</h1>
+        </div>
+        <a class="btn btn-primary" href="{% url 'mail_service:mailinglist_new' %}">Добавить</a>
+    </div>
+    <div class="card">
+        <div class="card-header bg-transparent d-flex flex-wrap gap-2 align-items-center justify-content-between">
+            <h5>Список рассылок:</h5>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>Сообщение рассылки</th>
+                    <th>Статус</th>
+                    <th class="text-end">Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for mailinglist in mailinglist_list %}
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <div>
+                                <div class="fw-medium">{{ mailinglist.message.subject }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <div>
+                                <div class="fw-medium">
+                                    <span class="badge {{mailinglist.badge_class}} align-middle">
+                                        {{ mailinglist.get_status }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-end">
+                        <div class="btn-group" role="group">
+                            <a class="btn btn-sm btn-outline-secondary"
+                               href="{% url 'mail_service:mailinglist_detail' mailinglist.pk %}">Подробности</a>
+                            <a class="btn btn-sm btn-outline-secondary"
+                               href="{% url 'mail_service:mailinglist_edit' mailinglist.pk %}">Редактировать</a>
+                            <a class="btn btn-sm btn-outline-secondary"
+                               href="{% url 'mail_service:mailinglist_delete' mailinglist.pk %}">Удалить</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

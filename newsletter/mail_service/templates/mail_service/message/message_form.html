@@ -3,6 +3,12 @@
 {% block title %}Newsletter: message{% endblock %}
 
 {% block content %}
+{% if mailinglist %}
+<h1>Форма изменения сообщения</h1>
+{% else %}
+<h1>Форма добавления сообщения</h1>
+{% endif %}
+
 <div class="card">
     <div class="card-body">
         <form method="POST">
@@ -18,14 +24,13 @@
             </div>
             {% endfor%}
 
-            {% if product %}
+            {% if message %}
             <button class="btn btn-lg btn-block btn-outline-primary w-auto" type="submit">Сохранить</button>
-            <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" role="button"
-               href="{% url 'mail_service:client_list' product.pk %}">Отмена</a>
+            <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" onclick="history.back()">Отмена</a>
             {% else %}
             <button class="btn btn-lg btn-block btn-outline-primary w-auto" type="submit">Добавить</button>
             <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" role="button"
-               href="{% url 'mail_service:client_list' %}?page={{ page }}">Отмена</a>
+               href="{% url 'mail_service:message_list' %}?page={{ page }}">Отмена</a>
             {% endif %}
         </form>
     </div>

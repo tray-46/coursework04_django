@@ -3,11 +3,62 @@
 {% block title %}Newsletter: mailing list{% endblock %}
 
 {% block content %}
-<h1>{{ mailinglist.message }}</h1>
-<p>{{ mailinglist.dispatch_start }}</p>
-<p>{{ mailinglist.dispatch_end }}</p>
-<p>{{ mailinglist.status }}</p>
-<div>
-    {{ mailinglist.recipients }}
+<div class="row">
+    {% if messages %}
+    <div class="message-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ mailinglist.message.subject }}</h5>
+                <p class="card-text">Начало: {{ mailinglist.dispatch_start|date:"d.m.Y H:i:s" }}</p>
+                <p class="card-text">Окончание: {{ mailinglist.dispatch_end|date:"d.m.Y H:i:s" }}</p>
+                <p class="card-text">Статус: {{ mailinglist.get_status }}</p>
+                <p>Получалели:</p>
+                <ul>
+                    {% for client in mailinglist.recipients.all %}
+                    <li>{{ client }}</li>
+                    {% empty %}
+                    <li>Нет получалелей</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="card-fotter">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <a class="btn btn-primary" href="{% url 'mail_service:mailinglist_send' mailinglist.pk %}">Отправить</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h5 class="card-title">Действия:</h5>
+                <div class="d-grid gap-2">
+                    <a class="btn btn-primary" href="{% url 'mail_service:mailinglist_edit' mailinglist.pk %}">Редактировать</a>
+                    <a class="btn btn-primary"
+                       href="{% url 'mail_service:mailinglist_delete' mailinglist.pk %}">Удалить</a>
+                    <a class="btn btn-primary"
+                       href="{% url 'mail_service:mailinglist_list' %}?page={{ page }}">Назад</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -3,12 +3,35 @@
 {% block title %}Newsletter: client{% endblock %}
 
 {% block content %}
-<h1>{{ client.email }}</h1>
-<p>{{ client.surname }}</p>
-<p>{{ client.first_name }}</p>
-<p>{{ client.patronymic }}</p>
-<hr>
-<div>
-    {{ client.comment|linebreaks }}
+{% if mailinglist %}
+<h1>Форма изменения клиента</h1>
+{% else %}
+<h1>Форма добавления клиента</h1>
+{% endif %}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ client.first_name }} {{ client.patronymic|default_if_none:" " }} {{ client.surname }}</h5>
+                <p class="card-text">Почта: {{ client.email }}</p>
+                <p class="card-text">Комментарий:</p>
+                <p class="card-text">{{ client.comment }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h5 class="card-title">Действия:</h5>
+                <div class="d-grid gap-2">
+                    <a class="btn btn-primary" href="{% url 'mail_service:client_edit' client.pk %}">Редактировать</a>
+                    <a class="btn btn-primary" href="{% url 'mail_service:client_delete' client.pk %}">Удалить</a>
+                    <a class="btn btn-primary" href="{% url 'mail_service:client_list' %}?page={{ page }}">Назад</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
