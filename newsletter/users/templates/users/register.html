@@ -1,0 +1,22 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Регистрация пользователя{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-6">
+        <h2>Регистрация на сайте</h2>
+        <div class="card">
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <a class="btn btn-primary" href="#" onclick="window.history.back()">Отмена</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
