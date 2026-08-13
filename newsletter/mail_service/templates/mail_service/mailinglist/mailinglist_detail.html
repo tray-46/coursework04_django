@@ -41,7 +41,6 @@
                     {% endfor %}
                 </ul>
                 {% endif %}
-                <a class="btn btn-primary" href="{% url 'mail_service:mailinglist_send' mailinglist.pk %}">Отправить</a>
             </div>
         </div>
     </div>
@@ -51,6 +50,7 @@
 
                 <h5 class="card-title">Действия:</h5>
                 <div class="d-grid gap-2">
+                    <a class="btn btn-primary" href="{% url 'mail_service:mailinglist_send' mailinglist.pk %}">Отправить</a>
                     <a class="btn btn-primary" href="{% url 'mail_service:mailinglist_edit' mailinglist.pk %}">Редактировать</a>
                     <a class="btn btn-primary"
                        href="{% url 'mail_service:mailinglist_delete' mailinglist.pk %}">Удалить</a>
