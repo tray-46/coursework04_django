@@ -27,6 +27,7 @@ URLType = Union[URLPattern, URLResolver]
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("mail_service.urls", namespace="mail_service")),
+    path("users/", include("users.urls", namespace="users")),
 ]
 
 if settings.DEBUG:
