@@ -1,6 +1,6 @@
-<nav class="navbar navbar-light bg-light">
-    <div class="container-flued">
-        <a class="navbar-brand mx-3" href="#">
+<nav class="navbar navbar-expand">
+    <div class="container-fluid">
+        <a class="navbar-brand mx-3" href="{% url 'mail_service:dashboard' %}">
             <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                  class="envelope-icon">
@@ -8,15 +8,21 @@
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
             </svg>
         </a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'mail_service:client_list' %}">Клиенты</a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'mail_service:message_list' %}">Сообщения</a>
-        <a class="p-2 btn btn-outline-primary" href="{% url 'mail_service:mailinglist_list' %}">Рассылки</a>
-        {% if user.is_uthenticated %}
-        <p>{{ user }}</p>
-        <a class="p-2 btn btn-outline-primary" href="#">Выйти</a>
-        {% else %}
-        <a class="p-2 btn btn-outline-primary" href="#">Войти</a>
-        <a class="p-2 btn btn-outline-primary" href="#">Зарегистрироваться</a>
-        {% endif %}
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav me-auto">
+                <a class="p-2 btn btn-outline-primary" href="{% url 'mail_service:client_list' %}">Клиенты</a>
+                <a class="p-2 btn btn-outline-primary mx-2" href="{% url 'mail_service:message_list' %}">Сообщения</a>
+                <a class="p-2 btn btn-outline-primary" href="{% url 'mail_service:mailinglist_list' %}">Рассылки</a>
+            </div>
+            <div class="navbar-nav">
+                {% if user.is_uthenticated %}
+                <p>{{ user }}</p>
+                <a class="p-2 btn btn-outline-primary" href="#">Выйти</a>
+                {% else %}
+                <a class="p-2 btn btn-outline-primary" href="#">Войти</a>
+                <a class="p-2 btn btn-outline-primary ms-2" href="#">Зарегистрироваться</a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </nav>
