@@ -2,3 +2,4 @@ from .client_views import ClientListView, ClientDetailView, ClientCreateView, Cl
 from .message_views import MessageListView, MessageDetailView, MessageCreateView, MessageUpdateView, MessageDeleteView
 from .mailinglist_views import MailingListListView, MailingListDetailView, MailingListCreateView, \
     MailingListUpdateView, MailingListDeleteView, MailingListSendView
+from .dashboard import DashboardView
