@@ -11,7 +11,6 @@ def send_mailinglist(mailinglist_id):
     mailing_list = MailingList.objects.get(id=mailinglist_id)
 
     dt_now = timezone.now()
-    print(mailing_list.dispatch_start, mailing_list.dispatch_end, dt_now)
     if not mailing_list.dispatch_start <= dt_now <= mailing_list.dispatch_end:
         print("this mailing list is not active")
         return
@@ -21,41 +20,7 @@ def send_mailinglist(mailinglist_id):
 
     sent_successfully = 0
     sent_errors = 0
-    # хотел сделать через одино подключение к smtp, но не придумал как при это не нарушить логигу "попытки рассылки"
 
-    # try:
-    #     with mail.get_connection() as connection:
-    #         print("connection opened")
-    #         for recipient in recipients_list:
-    #             dispatch_attempt = DispatchAttempt(mailing_list=mailing_list, attempt_dt=dt_now)
-    #             try:
-    #                 sent_count = mail.send_mail(
-    #                     subject=email_massage.subject,
-    #                     message=email_massage.body,
-    #                     from_email=settings.DEFAULT_FROM_EMAIL,
-    #                     recipient_list=[recipient.email],
-    #                     connection=connection,
-    #                     fail_silently=False,
-    #                 )
-    #                 if sent_count == 1:
-    #                     sent_successfully += 1
-    #                     dispatch_attempt.status = True
-    #             except ValueError as e:
-    #                 sent_errors += 1
-    #                 dispatch_attempt.smtp_response = f"Invalid header found. Error: {str(e)}"
-    #             except SMTPAuthenticationError as e:
-    #                 sent_errors += 1
-    #                 dispatch_attempt.smtp_response = f"Auth failed. Code: {e.smtp_code}, Message: {e.smtp_error.decode()}"
-    #             except SMTPRecipientsRefused as e:
-    #                 sent_errors += 1
-    #                 dispatch_attempt.smtp_response = f"Rejected recipients: {e.recipients}"
-    #             except SMTPException as e:
-    #                 sent_errors += 1
-    #                 dispatch_attempt.smtp_response = f"Smtp error occurred: {str(e)}"
-    #             dispatch_attempt.save()
-    # except Exception as e:
-    #     print(str(e))
-    # print(f"Successfully sent: {sent_successfully}, errors occurred: {sent_errors}")
     for recipient in recipients_list:
             dispatch_attempt = DispatchAttempt(mailing_list=mailing_list, attempt_dt=dt_now)
             try:
