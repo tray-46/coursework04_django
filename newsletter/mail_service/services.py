@@ -20,6 +20,7 @@ def send_mailinglist(mailinglist_id):
 
     sent_successfully = 0
     sent_errors = 0
+    dispatch_attempt_list = list()
 
     for recipient in recipients_list:
             dispatch_attempt = DispatchAttempt(mailing_list=mailing_list, attempt_dt=dt_now)
@@ -46,5 +47,7 @@ def send_mailinglist(mailinglist_id):
             except SMTPException as e:
                 sent_errors += 1
                 dispatch_attempt.smtp_response = f"Smtp error occurred: {str(e)}"
-            dispatch_attempt.save()
+            # dispatch_attempt.save()
+            dispatch_attempt_list.append(dispatch_attempt)
+    DispatchAttempt.objects.bulk_create(dispatch_attempt_list)
     print(f"Successfully sent: {sent_successfully}, errors occurred: {sent_errors}")
