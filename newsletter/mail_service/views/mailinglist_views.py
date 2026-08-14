@@ -39,7 +39,7 @@ class MailingListUpdateView(UpdateView):
     model = MailingList
     form_class = MailingListForm
     template_name = 'mail_service/mailinglist/mailinglist_form.html'
-    success_url = reverse_lazy("mail_service:mailing_list_list")
+    success_url = reverse_lazy("mail_service:mailinglist_list")
 
 
 class MailingListDeleteView(DeleteView):
