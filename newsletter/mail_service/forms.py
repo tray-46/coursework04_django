@@ -6,7 +6,7 @@ from .models import Client, Message, MailingList
 class ClientForm(forms.ModelForm):
     class Meta:
         model = Client
-        fields = "__all__"
+        exclude = ("owner",)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,7 +17,7 @@ class ClientForm(forms.ModelForm):
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = "__all__"
+        exclude = ("owner",)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -29,7 +29,7 @@ class MailingListForm(forms.ModelForm):
     class Meta:
         model = MailingList
         # fields = "__all__"
-        exclude = ("status",)
+        exclude = ("status", "owner",)
         widgets = {
             "dispatch_start": forms.DateTimeInput(
                 format="%Y-%m-%d %H:%M:%S",

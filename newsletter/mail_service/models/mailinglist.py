@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 
@@ -26,8 +27,11 @@ class MailingList(models.Model):
     dispatch_start = models.DateTimeField(verbose_name="Начало отправки", help_text="Дата и время первой отправки")
     dispatch_end = models.DateTimeField(verbose_name="Окончание отправки", help_text="Дата и время окончания отправки")
     status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=0, verbose_name="Статус")
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name="mailing_lists", verbose_name="Сообщение")
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name="mailing_lists",
+                                verbose_name="Сообщение")
     recipients = models.ManyToManyField(Client, related_name="mailing_lists")
+    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="mailinglists",
+                              verbose_name="Владелец")
 
     def __str__(self):
         return f"{self.message.subject}: {self.get_status_display()}"

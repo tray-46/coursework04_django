@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -12,6 +13,8 @@ class Message(models.Model):
     """
     subject = models.CharField(max_length=150, verbose_name="Тема письма", help_text="Укажите тему письма")
     body = models.TextField(verbose_name="Тело письма", help_text="Введите сообщение")
+    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="messages",
+                              verbose_name="Владелец")
 
     def __str__(self):
         return self.subject

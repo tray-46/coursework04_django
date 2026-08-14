@@ -24,6 +24,10 @@ class MessageCreateView(CreateView):
     template_name = 'mail_service/message/message_form.html'
     success_url = reverse_lazy("mail_service:message_list")
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 
 class MessageUpdateView(UpdateView):
     model = Message
