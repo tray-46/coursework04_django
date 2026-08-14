@@ -13,7 +13,7 @@
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary">Войти</button>
                     <a class="btn btn-primary" href="#" onclick="window.history.back()">Отмена</a>
-                    <a href="#">Забыли пароль?</a>
+                    <a href="{% url 'users:password_reset' %}">Забыли пароль?</a>
                 </form>
             </div>
         </div>
