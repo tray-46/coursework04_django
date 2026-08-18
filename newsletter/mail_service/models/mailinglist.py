@@ -40,6 +40,10 @@ class MailingList(models.Model):
         verbose_name = "Рассылка"
         verbose_name_plural = "Рассылки"
 
+        permissions = [
+            ("can_disable_mailinglist", "Can disable mailing list"),
+        ]
+
     @property
     def badge_class(self):
         mapping = {
