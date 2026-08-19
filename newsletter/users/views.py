@@ -1,3 +1,5 @@
+from django.http import Http404, HttpRequest, HttpResponse, HttpResponseForbidden
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
@@ -5,10 +7,11 @@ from django.contrib.auth.views import LoginView
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.urls import reverse_lazy
-from django.views.generic import View
+from django.views.generic import View, ListView
 from django.views.generic.edit import CreateView
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 
+from django.contrib.auth.models import Group
 from .tokens import account_activation_token
 from .forms import LoginForm, RegisterForm
 from .models import User
@@ -24,6 +27,9 @@ class RegisterView(CreateView):
         user = form.save(commit=False)
         user.is_active = False
         user.save()
+
+        users_groups, _ = Group.objects.get_or_create(name="Users")
+        user.groups.add(users_groups)
 
         current_site = get_current_site(self.request)
         mail_subject = "Activate your account"
@@ -55,3 +61,28 @@ class ActivateView(View):
 class UserLoginView(LoginView):
     template_name = "users/login.html"
     form_class = LoginForm
+
+
+class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+    model = User
+    permission_required = "users.view_user"
+    template_name = "users/list.html"
+
+    def get_queryset(self):
+        service_users =User.objects.filter(groups__name="Users")
+        return service_users
+
+
+class UserBlockView(LoginRequiredMixin, PermissionRequiredMixin, View):
+    """"""
+    permission_required = "users.can_block_user"
+
+    def post(self, request: HttpRequest, pk: int) -> HttpResponse:
+        if not self.request.user.has_perm("users.can_block_user"):
+            return HttpResponseForbidden()
+
+        user = get_object_or_404(User, pk=pk)
+        user.is_active = not user.is_active
+        user.save()
+        return redirect("users:user_list")
+

@@ -11,6 +11,9 @@
         <div class="collapse navbar-collapse">
             <div class="navbar-nav me-auto">
                 {% if user.is_authenticated %}
+                    {% if perms.users.view_user %}
+                        <a class="btn btn-outline-primary p-2 me-2" href="{% url 'users:user_list' %}">Пользователи</a>
+                    {% endif %}
                 <a class="btn btn-outline-primary p-2" href="{% url 'mail_service:client_list' %}">Клиенты</a>
                 <a class="btn btn-outline-primary p-2 mx-2" href="{% url 'mail_service:message_list' %}">Сообщения</a>
                 <a class="btn btn-outline-primary p-2" href="{% url 'mail_service:mailinglist_list' %}">Рассылки</a>
