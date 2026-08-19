@@ -26,8 +26,10 @@
 
                 <h5 class="card-title">Действия:</h5>
                 <div class="d-grid gap-2">
+                    {% if client.owner == user %}
                     <a class="btn btn-primary" href="{% url 'mail_service:client_edit' client.pk %}">Редактировать</a>
                     <a class="btn btn-primary" href="{% url 'mail_service:client_delete' client.pk %}">Удалить</a>
+                    {% endif %}
                     <a class="btn btn-primary" href="{% url 'mail_service:client_list' %}?page={{ page }}">Назад</a>
                 </div>
             </div>
