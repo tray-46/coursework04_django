@@ -31,7 +31,7 @@ class MailingListForm(forms.ModelForm):
     class Meta:
         model = MailingList
         # fields = "__all__"
-        exclude = ("status", "owner",)
+        exclude = ("status", "owner", "is_enable",)
 
         widgets = {
             "dispatch_start": forms.DateTimeInput(

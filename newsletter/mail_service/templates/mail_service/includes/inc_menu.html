@@ -1,3 +1,5 @@
+{% load auth_extras %}
+
 <nav class="navbar navbar-expand">
     <div class="container-fluid">
         <a class="navbar-brand mx-3" href="{% url 'mail_service:dashboard' %}">
@@ -11,7 +13,7 @@
         <div class="collapse navbar-collapse">
             <div class="navbar-nav me-auto">
                 {% if user.is_authenticated %}
-                    {% if perms.users.view_user %}
+                    {% if user|has_group:"Managers" %}
                         <a class="btn btn-outline-primary p-2 me-2" href="{% url 'users:user_list' %}">Пользователи</a>
                     {% endif %}
                 <a class="btn btn-outline-primary p-2" href="{% url 'mail_service:client_list' %}">Клиенты</a>

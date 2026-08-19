@@ -49,8 +49,23 @@
             <div class="card-body">
                 <h5 class="card-title">Действия:</h5>
                 <div class="d-grid gap-2">
+                    {% if perms.mail_service.can_disable_mailinglist %}
+                    <form method="POST" action="{% url 'mail_service:mailinglist_disable' mailinglist.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100">
+                            {% if mailinglist.is_enable %}
+                            <span>Отключить</span>
+                            {% else %}
+                            <span>Включить</span>
+                            {% endif %}
+                        </button>
+                    </form>
+                    {% endif %}
                     {% if mailinglist.owner == user %}
-                    <a class="btn btn-primary" href="{% url 'mail_service:mailinglist_send' mailinglist.pk %}">Отправить</a>
+                    {% if mailinglist.is_enable %}
+                    <a class="btn btn-primary"
+                       href="{% url 'mail_service:mailinglist_send' mailinglist.pk %}">Отправить</a>
+                    {% endif %}
                     <a class="btn btn-primary" href="{% url 'mail_service:mailinglist_edit' mailinglist.pk %}">Редактировать</a>
                     <a class="btn btn-primary"
                        href="{% url 'mail_service:mailinglist_delete' mailinglist.pk %}">Удалить</a>

@@ -32,6 +32,7 @@ class MailingList(models.Model):
     recipients = models.ManyToManyField(Client, related_name="mailing_lists")
     owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="mailinglists",
                               verbose_name="Владелец")
+    is_enable = models.BooleanField(verbose_name="Включение рассылки", default=True)
 
     def __str__(self):
         return f"{self.message.subject}: {self.get_status_display()}"
@@ -50,13 +51,16 @@ class MailingList(models.Model):
             "Создана": "bg-warning",
             "Запущена": "bg-success",
             "Завершена": "bg-danger",
+            "Отключена": "bg-info",
         }
         return mapping.get(self.get_status, "bg-secondary")
 
     @property
     def get_status(self):
         dt_now = timezone.now()
-        if dt_now < self.dispatch_start:
+        if not self.is_enable:
+            return "Отключена"
+        elif dt_now < self.dispatch_start:
             return self.STATUS_CHOICES[0][1]
         elif self.dispatch_start <= dt_now <= self.dispatch_end:
             return self.STATUS_CHOICES[1][1]
