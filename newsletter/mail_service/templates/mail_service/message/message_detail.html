@@ -18,8 +18,10 @@
 
                 <h5 class="card-title">Действия:</h5>
                 <div class="d-grid gap-2">
+                    {% if message.owner == user %}
                     <a class="btn btn-primary" href="{% url 'mail_service:message_edit' message.pk %}">Редактировать</a>
                     <a class="btn btn-primary" href="{% url 'mail_service:message_delete' message.pk %}">Удалить</a>
+                    {% endif %}
                     <a class="btn btn-primary" href="{% url 'mail_service:message_list' %}?page={{ page }}">Назад</a>
                 </div>
             </div>
