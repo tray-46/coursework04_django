@@ -1,10 +1,14 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_cookie
 from django.utils import timezone
 from django.views.generic import TemplateView
 
 from ..models import MailingList, Client, DispatchAttempt
 
 
+@method_decorator(cache_page(60 * 5), name='dispatch')
+@method_decorator(vary_on_cookie, name="dispatch")
 class DashboardView(TemplateView):
     template_name = 'mail_service/dashboard.html'
 
