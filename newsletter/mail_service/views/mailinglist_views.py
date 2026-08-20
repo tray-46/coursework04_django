@@ -1,3 +1,5 @@
+import logging
+
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseForbidden
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
@@ -11,6 +13,8 @@ from ..forms import MailingListForm
 from ..models import MailingList
 from ..services import send_mailinglist
 
+
+logger = logging.getLogger(__name__)
 
 # Create your views here.
 class MailingListListView(LoginRequiredMixin, ListView):
@@ -38,12 +42,24 @@ class MailingListCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView)
     template_name = 'mail_service/mailinglist/mailinglist_form.html'
     success_url = reverse_lazy("mail_service:mailinglist_list")
 
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        logger.info(f"User '{user}' accessed MailingListCreateView via {request.method}")
+        return super().dispatch(request, *args, **kwargs)
+
     def test_func(self):
         return self.request.user.groups.filter(name="Users").exists()
 
     def form_valid(self, form):
+        logger.info("MailingList form validation passed. Attempting database save.")
         form.instance.owner = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        logger.info(f"Successfully created MailingList ID: {self.object.id}")
+        return response
+
+    def form_invalid(self, form):
+        logger.warning(f"Failed MailingList creation attempt. Errors: {form.errors.as_json()}")
+        return super().form_invalid(form)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
