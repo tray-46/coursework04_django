@@ -1,6 +1,8 @@
+from django.core.cache import cache
 from django.http import Http404, HttpRequest, HttpResponse, HttpResponseForbidden
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.sites.shortcuts import get_current_site
+from django.utils import cache
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.views import LoginView
@@ -69,7 +71,14 @@ class UserListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     template_name = "users/list.html"
 
     def get_queryset(self):
+        cache_key = "service_users"
+        service_users = cache.get(cache_key)
+
+        if service_users:
+            return service_users
+
         service_users =User.objects.filter(groups__name="Users")
+        cache.set(cache_key, service_users, 60 * 5)
         return service_users
 
 
