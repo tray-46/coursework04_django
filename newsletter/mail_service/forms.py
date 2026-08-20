@@ -47,7 +47,14 @@ class MailingListForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop("user")
+        print(user)
         super().__init__(*args, **kwargs)
+
+        if user:
+            self.fields["message"].queryset = Message.objects.filter(owner=user)
+            self.fields["recipients"].queryset = Client.objects.filter(owner=user)
+
         for field in self.fields.values():
             field.widget.attrs.update({"class": "form-control", })
 
