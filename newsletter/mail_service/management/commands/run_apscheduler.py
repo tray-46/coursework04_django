@@ -1,32 +1,34 @@
 import logging
-
-from django.conf import settings
-from django.utils import timezone
+from typing import Any
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
+from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.utils import timezone
+from django_apscheduler import util
 from django_apscheduler.jobstores import DjangoJobStore
 from django_apscheduler.models import DjangoJobExecution
-from django_apscheduler import util
+
+from ...models import MailingList
+from ...services import send_mailinglist
 
 logger = logging.getLogger(__name__)
 
-from ...services import send_mailinglist
-from ...models import MailingList
 
-def my_job():
+def my_job() -> None:
     dt_now = timezone.now()
     ml_to_send = MailingList.objects.filter(is_enable=True, dispatch_start__lte=dt_now, dispatch_end__gte=dt_now)
     print(ml_to_send)
     for ml in ml_to_send:
         send_mailinglist(ml.pk)
 
+
 # The `close_old_connections` decorator ensures that database connections, that have become
 # unusable or are obsolete, are closed before and after your job has run. You should use it
 # to wrap any jobs that you schedule that access the Django database in any way.
 @util.close_old_connections
-def delete_old_job_executions(max_age=604_800):
+def delete_old_job_executions(max_age: int = 604_800) -> None:
     """
     This job deletes APScheduler job execution entries older than `max_age` from the database.
     It helps to prevent the database from filling up with old historical records that are no
@@ -41,7 +43,7 @@ def delete_old_job_executions(max_age=604_800):
 class Command(BaseCommand):
     help = "Runs APScheduler."
 
-    def handle(self, *args, **options):
+    def handle(self, *args: Any, **options: Any) -> None:
         scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
         scheduler.add_jobstore(DjangoJobStore(), "default")
 

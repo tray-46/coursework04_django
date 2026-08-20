@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/6.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
+
 import os
 from pathlib import Path
 
@@ -143,9 +144,7 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "/media/"
 
-STATICFILES_FINDERS = (
-    "django.contrib.staticfiles.finders.FileSystemFinder",
-)
+STATICFILES_FINDERS = ("django.contrib.staticfiles.finders.FileSystemFinder",)
 
 STORAGES = {
     "default": {
@@ -153,7 +152,7 @@ STORAGES = {
     },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.ManifestStaticFilesStorage",
-    }
+    },
 }
 
 # email settings
@@ -190,7 +189,7 @@ LOGGING = {
         "simple": {
             "format": "{levelname} {message}",
             "style": "{",
-        }
+        },
     },
     "handlers": {
         "console": {

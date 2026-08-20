@@ -18,6 +18,7 @@ class MailingList(models.Model):
         message: ForeignKey, mailing list message
         recipients: ManyToManyField, mailing list recipients
     """
+
     STATUS_CHOICES = [
         (0, "Создана"),
         (1, "Запущена"),
@@ -27,14 +28,16 @@ class MailingList(models.Model):
     dispatch_start = models.DateTimeField(verbose_name="Начало отправки", help_text="Дата и время первой отправки")
     dispatch_end = models.DateTimeField(verbose_name="Окончание отправки", help_text="Дата и время окончания отправки")
     status = models.PositiveIntegerField(choices=STATUS_CHOICES, default=0, verbose_name="Статус")
-    message = models.ForeignKey(Message, on_delete=models.CASCADE, related_name="mailing_lists",
-                                verbose_name="Сообщение")
+    message = models.ForeignKey(
+        Message, on_delete=models.CASCADE, related_name="mailing_lists", verbose_name="Сообщение"
+    )
     recipients = models.ManyToManyField(Client, related_name="mailing_lists")
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="mailinglists",
-                              verbose_name="Владелец")
+    owner = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, related_name="mailinglists", verbose_name="Владелец"
+    )
     is_enable = models.BooleanField(verbose_name="Включение рассылки", default=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.message.subject}: {self.get_status_display()}"
 
     class Meta:
@@ -46,7 +49,7 @@ class MailingList(models.Model):
         ]
 
     @property
-    def badge_class(self):
+    def badge_class(self) -> str:
         mapping = {
             "Создана": "bg-warning",
             "Запущена": "bg-success",
@@ -56,7 +59,7 @@ class MailingList(models.Model):
         return mapping.get(self.get_status, "bg-secondary")
 
     @property
-    def get_status(self):
+    def get_status(self) -> str:
         dt_now = timezone.now()
         if not self.is_enable:
             return "Отключена"

@@ -1,10 +1,8 @@
-"""
+""" """
 
-"""
-import os
 from typing import Any
 
-from django.core.management import BaseCommand, CommandError, call_command
+from django.core.management import BaseCommand
 
 from ...services import send_mailinglist
 

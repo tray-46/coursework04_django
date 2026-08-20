@@ -2,6 +2,7 @@ from django.db import models
 
 from .mailinglist import MailingList
 
+
 # Create your models here.
 class DispatchAttempt(models.Model):
     """
@@ -13,6 +14,7 @@ class DispatchAttempt(models.Model):
         status: BooleanField, status of attempt - success, or failure
         smtp_response: TextField, response of SMTP server
     """
+
     STATUS_CHOICES = [
         (False, "Не успешно"),
         (True, "Успешно"),
@@ -23,8 +25,10 @@ class DispatchAttempt(models.Model):
     status = models.BooleanField(choices=STATUS_CHOICES, default=False, verbose_name="Статус")
     smtp_response = models.TextField(verbose_name="Ответ почтового сервера", null=True)
 
-    def __str__(self):
-        return f"{self.mailing_list.message}: {self.status}"
+    def __str__(self) -> str:
+        if self.mailing_list:
+            return f"{self.mailing_list.message}: {self.status}"
+        return f"{self.status} {str(self.attempt_dt)}"
 
     class Meta:
         verbose_name = "Попытка рассылки"

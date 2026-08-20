@@ -14,19 +14,26 @@ class Client(models.Model):
         patronymic (CharField): client's patronymic
         comment (TextField): comment for client
     """
+
     # по требованию ТЗ поле email уникально
     # получеется что пользователи сервиса не могут добавить себе одного клиента
     # что наверно не правильно
     email = models.EmailField(unique=True, verbose_name="Email", help_text="введите email клиента")
     surname = models.CharField(max_length=100, verbose_name="Фамилия", help_text="введите фамилию клиента")
     first_name = models.CharField(max_length=100, verbose_name="Имя", help_text="введите имя клиента")
-    patronymic = models.CharField(max_length=100, null=True, blank=True, verbose_name="Отчество",
-                                  help_text="введите отчество клиента (при наличии)")
+    patronymic = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name="Отчество",
+        help_text="введите отчество клиента (при наличии)",
+    )
     comment = models.TextField(null=True, blank=True, verbose_name="Комметарий", help_text="добавьте комметарий")
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="clients",
-                              verbose_name="Владелец")
+    owner = models.ForeignKey(
+        get_user_model(), on_delete=models.CASCADE, related_name="clients", verbose_name="Владелец"
+    )
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.surname} {self.first_name}{f" {self.patronymic}" if self.patronymic else ""}"
 
     class Meta:
