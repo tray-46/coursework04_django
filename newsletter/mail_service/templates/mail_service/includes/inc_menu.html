@@ -1,0 +1,38 @@
+{% load auth_extras %}
+
+<nav class="navbar navbar-expand">
+    <div class="container-fluid">
+        <a class="navbar-brand mx-3" href="{% url 'mail_service:dashboard' %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="50px" height="50px" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="envelope-icon">
+                <rect width="20" height="16" x="2" y="4" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+        </a>
+        <div class="collapse navbar-collapse">
+            <div class="navbar-nav me-auto">
+                {% if user.is_authenticated %}
+                    {% if user|has_group:"Managers" %}
+                        <a class="btn btn-outline-primary p-2 me-2" href="{% url 'users:user_list' %}">Пользователи</a>
+                    {% endif %}
+                <a class="btn btn-outline-primary p-2" href="{% url 'mail_service:client_list' %}">Клиенты</a>
+                <a class="btn btn-outline-primary p-2 mx-2" href="{% url 'mail_service:message_list' %}">Сообщения</a>
+                <a class="btn btn-outline-primary p-2" href="{% url 'mail_service:mailinglist_list' %}">Рассылки</a>
+                {% endif %}
+            </div>
+            <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                <span class="fs-5 me-2">Вы вошли как: {{ user }}</span>
+                <form method="POST" action="{% url 'users:logout' %}">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-primary p-2 " type="submit">Выйти</button>
+                </form>
+                {% else %}
+                <a class="btn btn-outline-primary p-2" href="{% url 'users:login' %}">Войти</a>
+                <a class="btn btn-outline-primary p-2 ms-2" href="{% url 'users:register' %}">Зарегистрироваться</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>

@@ -25,17 +25,33 @@ To clone the repository use the following links:
 
 * with HTTPS:
 ```
-
+https://github.com/tray-46/coursework04_django.git
 ```
 
 * with SSH:  
 ```
- 
+ git@github.com:tray-46/coursework04_django.git
 ```
 
 Install dependencies.
 From `.env_example` create `.env` file and fill it with your environment settings.  
 Create database with name specified in settings.  
+The project uses a modified AbstractUser model. If you've already applied migrations to the database, 
+you may need to roll back the migrations for the "auth" application.
+
+Redis is used for cache, you can download Windows version here:
+```
+https://github.com/redis-windows/redis-windows/releases
+```
+
+Create groups:
+```
+python manage.py create_groups
+```
+Create superuser^
+```
+python manage.py createsuperuser
+```
 
 ### To run the application:  
 In console open project directory and execute following command:

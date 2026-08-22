@@ -1,0 +1,17 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Newsletter: message{% endblock %}
+
+{% block content %}
+<h1>Удаление рассылки</h1>
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <p>Удалить рассылку '{{ mailinglist.message.subject }}'?</p>
+            <button class="btn btn-lg btn-block btn-outline-primary w-auto" type="submit">Удалить</button>
+            <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" role="button" onclick=" history.back()">Отмена</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

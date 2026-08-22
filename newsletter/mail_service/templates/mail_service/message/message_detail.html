@@ -1,0 +1,31 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Newsletter: message{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ message.subject }}</h5>
+                <p class="card-text">{{  message.body }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+
+                <h5 class="card-title">Действия:</h5>
+                <div class="d-grid gap-2">
+                    {% if message.owner == user %}
+                    <a class="btn btn-primary" href="{% url 'mail_service:message_edit' message.pk %}">Редактировать</a>
+                    <a class="btn btn-primary" href="{% url 'mail_service:message_delete' message.pk %}">Удалить</a>
+                    {% endif %}
+                    <a class="btn btn-primary" href="{% url 'mail_service:message_list' %}?page={{ page }}">Назад</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

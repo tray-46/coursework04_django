@@ -1,0 +1,47 @@
+{% extends "mail_service/base.html" %}
+
+{% block title %}Newsletter: mailinglist{% endblock %}
+
+{% block content %}
+{% if mailinglist %}
+<h1>Форма изменения рассылки</h1>
+{% else %}
+<h1>Форма добавления рассылки</h1>
+{% endif %}
+
+<div class="card">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="form-group mb-2">
+                {{ field.errors }}
+                <h6 class="my-1">{{ field.label_tag }}</h6>
+                {{ field }}
+                {% if field.help_text %}
+                <div class="text-secondary">{{ field.help_text|safe }}</div>
+                {% endif %}
+            </div>
+            {% endfor%}
+
+            {% if mailinglist %}
+            <button class="btn btn-lg btn-block btn-outline-primary w-auto" type="submit">Сохранить</button>
+            <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" onclick="history.back()">Отмена</a>
+            {% else %}
+            <button class="btn btn-lg btn-block btn-outline-primary w-auto" type="submit">Добавить</button>
+            <a class="btn btn-lg btn-block btn-outline-primary w-auto ms-2" role="button"
+               href="{% url 'mail_service:mailinglist_list' %}?page={{ page }}">Отмена</a>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock %}
